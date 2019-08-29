@@ -13,8 +13,8 @@ public class yejiService {
 	@Autowired
 	yejiDao yejidao;
 	
-	public void insertMember(Map<String, Object> map) {
-		yejidao.insert(map);
+	public int insertMember(Map<String, Object> map) {
+		return yejidao.insert(map);
 	}
 	
 	public Map<String, Object> login(Map<String, Object> map) {

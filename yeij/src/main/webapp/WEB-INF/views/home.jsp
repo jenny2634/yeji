@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <style>
@@ -151,7 +151,8 @@ to {
 <!-- 로그인모달 -->
 
 <div id="id01" class="modal">
-	<form method="post" id="frmLogin" class="modal-content animate" action="http://localhost:8080/yeji/login">
+	<form method="post" id="frmLogin" class="modal-content animate"
+		action="http://localhost:8080/yeji/login">
 		<div class="imgcontainer">
 			<span onclick="document.getElementById('id01').style.display='none'"
 				class="close" title="Close Modal">&times;</span> <img
@@ -159,10 +160,10 @@ to {
 		</div>
 
 		<div class="container">
-			<label for="uname"><b>Username</b></label> 
-			<input type="text" placeholder="Enter Username" name="uname" required> 
-			<label for="psw"><b>Password</b></label> 
-			<input type="password" placeholder="Enter Password" name="psw" required>
+			<label for="uname"><b>Username</b></label> <input type="text"
+				placeholder="Enter Username" name="uname" required> <label
+				for="psw"><b>Password</b></label> <input type="password"
+				placeholder="Enter Password" name="psw" required>
 			<button type="submit" id="btnLogin">Login</button>
 		</div>
 
@@ -175,26 +176,33 @@ to {
 </div>
 
 <div id="id02" class="modal">
-	<form method="post" class="modal-content" action="http://localhost:8080/yeji/join">
-		<div class ="imgcontainer">
-			<span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+	<form method="post" id="frmJoin" class="modal-content"
+		action="http://localhost:8080/yeji/join">
+		<div class="imgcontainer">
+			<span onclick="document.getElementById('id02').style.display='none'"
+				class="close" title="Close Modal">&times;</span>
 		</div>
 		<div class="container">
 			<h1>Sign Up</h1>
 			<p>Please fill in this form to create an account.</p>
 			<hr>
-			<label for="uname"><b>Username</b></label> 
-			<input type="text" placeholder="Enter Username" name="uname" required> 
-			<label for="psw"><b>Password</b></label> 
-			<input type="password" placeholder="Enter Password" name="psw" required> 
-			<label for="psw-repeat"><b>Repeat Password</b></label> 
-			<input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+			<label for="uname"><b>Username</b></label> <input type="text"
+				placeholder="Enter Username" id="uname" name="uname" required>
+				<button type="button" id="checkid" class="cancelbtn">Check</button><br>
+			<label for="psw"><b>Password</b></label> <input type="password"
+				placeholder="Enter Password" id="psw" name="psw" required> <label
+				for="psw-repeat"><b>Repeat Password</b></label> 
+				<p id='msg' style="color:red"></p>
+				<input
+				type="password" placeholder="Repeat Password" name="psw-repeat"
+				required>
 
 			<div class="clearfix">
 				<button type="button"
 					onclick="document.getElementById('id02').style.display='none'"
 					class="cancelbtn">Cancel</button>
-				<button type="submit" class="signupbtn">Sign Up</button>
+				<button type="submit" id="btnJoin" class="signupbtn">Sign
+					Up</button>
 			</div>
 		</div>
 	</form>
@@ -202,61 +210,87 @@ to {
 
 
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('[name=psw-repeat]').keyup(function() {
+			var psw = $('#psw').val();
+			var repeatPw = $(this).val();
+			if(psw != repeatPw) {
+				$('#msg').text('비밀번호가 다릅니다');
+			} else {
+				$('#msg').text('');
+			}
+		})
+		
+		$('#btnLogin').click(function() {
+			var action = $('#frmLogin').attr("action");
+			var form_data = {
+				"uname" : $('[name=uname]').val(),
+				"psw" : $('[name=psw]').val()
+			};
+			$.ajax({
+				type : "POST",
+				url : action,
+				data : form_data,
+				success : function(res) {
+					if (res == "success") {
+						alert("로그인 성공!");
+						location = "main"
+					} else {
+						alert("아이디 또는 비밀번호가 잘못되었습니다");
+					}
+				},
+				error : function() {
+					alert("Error");
+				}
+			});
+			return false;
 
- <script>
-    $(document).ready(function() {
-      $('#btnLogin').click(function() {
-        var action = $('#frmLogin').attr("action");
-        var form_data = {
-                          "uname": $('[name=uname]').val(),
-                          "psw": $('[name=psw]').val()
-        };
-        $.ajax({
-                  type: "POST",
-                  url: action,
-                  data: form_data,
-                  success: function(res) {
-                    if(res=="success") {
-                     alert("로그인 성공!");
-                     location="main"
-                    }else{
-                      alert("아이디 또는 비밀번호가 잘못되었습니다");
-                    }
-                  },
-                  error: function() {
-                   alert("Error");
-                  }
-        });
-        return false;
-        
-      });
-    });
+		});
+		
+		$('#btnJoin').click(function() {
+			var action = $('#frmJoin').attr("action");
+			var form_data = {
+				"uname" : $('#uname').val(),
+				"psw" : $('#psw').val()
+			};
+			$.ajax({
+				type : "POST",
+				url : action,
+				data : form_data,
+				success : function(res) {
+					if (res == "success") {
+						alert("회원가입 성공!");
+						document.getElementById('id02').style.display='none';
+					} else {
+						alert("회원가입 실패!");
+					}
+				},
+				error : function() {
+					alert("Error");
+				}
+			});
+			return false;
+		});
+	});
 </script>
 
 
 <script>
 	// Get the modal
-	var modal = document.getElementById('id01');
+	var modal1 = document.getElementById('id01');
+	var modal2 = document.getElementById('id02');
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
+		if (event.target == modal1) {
+			modal1.style.display = "none";
+		}
+		if (event.target == modal2) {
+			modal2.style.display = "none";
 		}
 	}
 	
-	
 </script>
 
-<script>
-	// Get the modal
-	var modal = document.getElementById('id02');
-
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-		if (event.target == modal) {
-			modal.style.display = "none";
-		}
-	}
-</script>
 

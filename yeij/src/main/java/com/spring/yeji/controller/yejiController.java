@@ -26,10 +26,18 @@ public class yejiController {
 		return "home";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "/join",  method = RequestMethod.POST)
 	public String signup(@RequestParam Map<String,Object> map) {
-		yejiservice.insertMember(map);
-		return "home";
+		
+
+		int result = yejiservice.insertMember(map);
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 	
 	@ResponseBody
