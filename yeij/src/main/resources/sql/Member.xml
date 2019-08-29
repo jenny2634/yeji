@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member_yeji">
+
+	<insert id="insertMember" parameterType="map">
+		INSERT INTO MEMBER_YEJI (UNAME, PSW)
+		VALUES ( #{uname}, #{psw})
+	</insert>
+	
+	<select id="login" parameterType="map" resultType="map">
+		SELECT UNAME, PSW
+		FROM MEMBER_YEJI
+		WHERE UNAME = #{uname} AND PSW = #{psw}
+	</select>
+</mapper>
