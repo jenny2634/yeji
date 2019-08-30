@@ -63,5 +63,11 @@ public class yejiController {
 	}
 	
 	
+	@RequestMapping(value = "list")
+	public String list(Model model) {
+		model.addAttribute("list", yejiservice.select());
+		return "list";
+	}
+	
 	
 }

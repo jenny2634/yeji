@@ -1,5 +1,6 @@
 package com.spring.yeji.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class yejiService {
 	
 	public Map<String, Object> login(Map<String, Object> map) {
 		return yejidao.login(map);
+	}
+	
+	public List<Map<String, Object>> select(){
+		return yejidao.select();
 	}
 }

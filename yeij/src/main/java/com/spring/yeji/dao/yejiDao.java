@@ -1,5 +1,6 @@
 package com.spring.yeji.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -19,4 +20,7 @@ public class yejiDao {
 		return ss.selectOne("member_yeji.login",map);
 	}
 
+	public List<Map<String, Object>> select(){
+		return ss.selectList("member_yeji.select");
+	}
 }
