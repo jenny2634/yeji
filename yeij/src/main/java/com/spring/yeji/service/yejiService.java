@@ -25,4 +25,12 @@ public class yejiService {
 	public List<Map<String, Object>> select(){
 		return yejidao.select();
 	}
+	
+	public List<Map<String, Object>> selectFile(){
+		return yejidao.selectFile();
+	}
+	
+	public void insertFile(Map<String, String> map) {
+		yejidao.save(map);
+	}
 }

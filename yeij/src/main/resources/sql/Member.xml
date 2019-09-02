@@ -15,7 +15,12 @@
 	</select>
 	
 	<select id="select" resultType="map">
-		SELECT UNAME, PSW
-		FROM MEMBER_YEJI
+		SELECT ID, TITLE, CONTENT, HIT, WRITER, WRITE_DATE, GRP, ORD,LEVEL
+		FROM BOARD_YEJI
+	</select>
+	
+	<select id="selectFile" resultType="map">
+		SELECT UNAME, TITLE, FILE
+		FROM FILE_YEJI
 	</select>
 </mapper>
