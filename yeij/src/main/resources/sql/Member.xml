@@ -14,6 +14,7 @@
 		WHERE UNAME = #{uname} AND PSW = #{psw}
 	</select>
 	
+	
 	<select id="select" resultType="map">
 		SELECT ID, TITLE, CONTENT, HIT, WRITER, WRITE_DATE, GRP, ORD,LEVEL
 		FROM BOARD_YEJI

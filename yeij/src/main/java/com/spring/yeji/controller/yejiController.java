@@ -66,9 +66,9 @@ public class yejiController {
 
 	@RequestMapping(value = "/main")
 	public String main(HttpSession session, Model model) {
-		model.addAttribute("list", yejiservice.select());
-		String uname = (String)session.getAttribute("uname");
-		if(uname == null) {
+		// model.addAttribute("list", yejiservice.select());
+		String uname = (String) session.getAttribute("uname");
+		if (uname == null) {
 			return "redirect:/";
 		}
 		return "main";
@@ -80,43 +80,65 @@ public class yejiController {
 		return "list";
 	}
 	
+	@RequestMapping(value = "/board", method = RequestMethod.GET)
+	public String board(HttpSession session,Model model) {
+		String uname = (String) session.getAttribute("uname");
+		if (uname == null) {
+			return "redirect:/";
+		}
+	
+		return "board";
+	}
+	
+	@RequestMapping(value = "/board", method = RequestMethod.POST)
+	public String boardPost(HttpSession session,Model model) {
+		String uname = (String) session.getAttribute("uname");
+		if (uname == null) {
+			return "redirect:/";
+		}
+	
+		return "board";
+	}
+
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write(HttpSession session, Model model) {
-		String uname = (String)session.getAttribute("uname");
-		if(uname == null) {
+		String uname = (String) session.getAttribute("uname");
+		if (uname == null) {
 			return "redirect:/";
 		}
 		return "write";
 	}
 	
-	@RequestMapping(value="/write", method = RequestMethod.POST)
-	public String writePost(@RequestParam Map<String, String> map,HttpSession session, MultipartHttpServletRequest mReq) {
-		
-		String uname = (String)session.getAttribute("uname");
+
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String writePost(@RequestParam Map<String, String> map, HttpSession session,
+			MultipartHttpServletRequest mReq) {
+
+		String uname = (String) session.getAttribute("uname");
 		map.put("uname", uname);
-		
+
 		String path = this.getClass().getClassLoader().getResource("").getPath();
-		path = path.substring(0,path.indexOf("WEB-INF"));
-		
+		path = path.substring(0, path.indexOf("WEB-INF"));
+
 		File dir = new File(path + "/resources");
-		//디렉토리가 없다면 생성
-		if(!dir.isDirectory()) {
+		// 디렉토리가 없다면 생성
+		if (!dir.isDirectory()) {
 			dir.mkdirs();
 		}
-		
+
 		MultipartFile mFile1 = mReq.getFile("file1");
 		String file1 = mFile1.getOriginalFilename();
-		
+
 		long unixTime = 0;
 		String fileName = "";
 		String fileExt = "";
-		if(!file1.equals("")) {
+		if (!file1.equals("")) {
 			unixTime = System.currentTimeMillis();
-			fileName = file1.substring(0,file1.indexOf("."));
+			fileName = file1.substring(0, file1.indexOf("."));
 			fileExt = file1.substring(file1.indexOf("."));
-			
+
 			file1 = fileName + "_" + unixTime + fileExt;
-			
+
 			try {
 				mFile1.transferTo(new File(path + "/resources/" + file1));
 			} catch (IllegalStateException e) {
@@ -127,11 +149,10 @@ public class yejiController {
 				e.printStackTrace();
 			}
 		}
-		
+
 		map.put("file1", file1);
 		yejiservice.insertFile(map);
-		
-	
+
 		return "write";
 	}
 
